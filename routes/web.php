@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Web route to send PDF
+Route::get('/email-pdf', 'MailController@generatePDF');
