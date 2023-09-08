@@ -332,7 +332,7 @@ class MailController extends Controller
 
         // Send the PDF as an email attachment
         Mail::send('emails.email_template', [], function ($message) use ($trx_number) {
-            $message->to('johnnnzivo@gmail.com')
+            $message->to('your-email@host.com')
                 ->subject('' . $trx_number . '- Afrisend Receipt')
                 ->attach(storage_path('app/public/send-invoices/' . $trx_number . '.pdf')); // Attach the generated PDF
         });
