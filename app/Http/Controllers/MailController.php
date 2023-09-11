@@ -349,6 +349,9 @@ class MailController extends Controller
             $message->to('email@gmail.com')
                 ->subject($trx_number . '- Afrisend Receipt')
                 ->attach($filePath); // Attach the generated PDF
+
+            // Delete the file after attaching it to the email
+            // unlink($filePath);
         });
 
         return 'PDF sent via email';
