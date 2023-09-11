@@ -327,7 +327,7 @@ class MailController extends Controller
         // Generate PDF
         $pdf = PDF::loadHTML($html);
 
-        create a folder of the current year
+        // create a folder of the current year
         $currentYear = date('Y');
 
         // Define the folder path
