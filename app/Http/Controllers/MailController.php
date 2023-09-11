@@ -327,14 +327,28 @@ class MailController extends Controller
         // Generate PDF
         $pdf = PDF::loadHTML($html);
 
+        create a folder of the current year
+        $currentYear = date('Y');
+
+        // Define the folder path
+        $folderPath = storage_path('app/public/send-invoices/' . $currentYear);
+
+        // Check if the folder exists, and if not, create it
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0755, true); // Create the folder recursively
+        }
+
+        // Define the full file path for saving the PDF
+        $filePath = $folderPath . '/' . $trx_number . '.pdf';
+
         // Save the PDF to a file (optional)
-        $pdf->save(storage_path('app/public/send-invoices/' . $trx_number . '.pdf'));
+        $pdf->save($filePath);
 
         // Send the PDF as an email attachment
-        Mail::send('emails.email_template', [], function ($message) use ($trx_number) {
-            $message->to('your-email@host.com')
-                ->subject('' . $trx_number . '- Afrisend Receipt')
-                ->attach(storage_path('app/public/send-invoices/' . $trx_number . '.pdf')); // Attach the generated PDF
+        Mail::send('emails.email_template', [], function ($message) use ($trx_number, $filePath) {
+            $message->to('email@gmail.com')
+                ->subject($trx_number . '- Afrisend Receipt')
+                ->attach($filePath); // Attach the generated PDF
         });
 
         return 'PDF sent via email';
